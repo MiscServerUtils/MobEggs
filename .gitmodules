@@ -1,0 +1,3 @@
+[submodule "MSU-Core"]
+	path = MSU-Core
+	url = http://github.com/MiscServerUtils/MSU-Core

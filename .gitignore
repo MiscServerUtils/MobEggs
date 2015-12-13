@@ -1,0 +1,24 @@
+# Ignore Everything
+/*
+/*/
+
+# Except These
+!/.gitignore
+!/MSU-Core
+!/src/
+!/gradle/
+!/gradlew
+!/gradlew.bat
+!/README
+!/LICENSE
+!/build.properties
+!/build.gradle
+!/settings.gradle
+
+
+
+
+
+
+
+
