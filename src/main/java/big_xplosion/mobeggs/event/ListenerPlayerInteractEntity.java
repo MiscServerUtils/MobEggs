@@ -15,6 +15,7 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.Slot;
 
+//TODO: Return when SpongeVanilla implements inventory handling
 //TODO: Remove debug code
 public class ListenerPlayerInteractEntity {
 
