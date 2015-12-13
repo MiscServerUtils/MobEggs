@@ -1,2 +1,4 @@
 rootProject.name = 'MobEggs'
-include "MSU-Core:MiscServerUtils-Core"
+include "MiscServerUtils-Core"
+
+project(":MiscServerUtils-Core").projectDir = file("MSU-Core")
