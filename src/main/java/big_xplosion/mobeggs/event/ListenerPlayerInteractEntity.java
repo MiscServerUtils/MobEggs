@@ -15,10 +15,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.Slot;
 
 //TODO: Return when Sponge(Vanilla/Forge) implements inventory handling
-//TODO: Remove debug code
 public class ListenerPlayerInteractEntity {
 
 	@Listener
@@ -29,13 +27,35 @@ public class ListenerPlayerInteractEntity {
 		if (!(target instanceof Living) || target instanceof Player || target instanceof Golem || target instanceof ComplexLiving || target instanceof Wither || target instanceof Giant)
 			return;
 
-		System.out.println("target: " + target);
-
+		//HACK
 		EntityPlayer mcPlayer = (EntityPlayer) player;
 
-		if(!mcPlayer.getHeldItem().getItem().equals(Items.redstone))
+		if (!mcPlayer.getHeldItem().getItem().equals(Items.redstone))
 			return;
-		if (!player.getItemInHand().isPresent())
+
+		if (!mcPlayer.inventory.hasItem(Items.egg))
+			return;
+
+		int slot = 0;
+		for (int i = 0; i < mcPlayer.inventory.mainInventory.length; i++) {
+			if (mcPlayer.inventory.mainInventory[i] != null && mcPlayer.inventory.mainInventory[i].getItem() == Items.egg)
+				slot = i;
+			else
+				return;
+		}
+
+		if (mcPlayer.getHeldItem().stackSize > 5)
+			mcPlayer.inventory.setInventorySlotContents(mcPlayer.inventory.currentItem, new net.minecraft.item.ItemStack(Items.redstone, mcPlayer.getHeldItem().stackSize - 5));
+		else
+			mcPlayer.inventory.setInventorySlotContents(mcPlayer.inventory.currentItem, null);
+
+		if (mcPlayer.inventory.getStackInSlot(slot).stackSize > 1)
+			mcPlayer.inventory.setInventorySlotContents(slot, new net.minecraft.item.ItemStack(Items.egg, mcPlayer.inventory.getStackInSlot(slot).stackSize - 1));
+		else
+			mcPlayer.inventory.setInventorySlotContents(slot, null);
+		//END-HACK
+
+		/*if (!player.getItemInHand().isPresent())
 			return;
 
 		ItemStack item = player.getItemInHand().get();
@@ -60,7 +80,7 @@ public class ListenerPlayerInteractEntity {
 		if (slot.getStackSize() > 1)
 			slot.set(ItemStack.of(ItemTypes.EGG, slot.getStackSize() - 1));
 		else
-			slot.set(null);
+			slot.set(null);*/
 
 		ItemStack egg = ItemStack.of(ItemTypes.SPAWN_EGG, 1);
 		egg.offer(Keys.SPAWNABLE_ENTITY_TYPE, target.getType());
