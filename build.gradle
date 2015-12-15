@@ -1,7 +1,35 @@
+buildscript {
+    repositories {
+        maven {
+            name = 'plugins'
+            url = 'https://plugins.gradle.org/m2'
+        }
+        maven {
+            name = 'minecrell'
+            url = 'http://repo.minecrell.net/releases'
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecrell:VanillaGradle:2.0.2_1'
+    }
+}
+
+apply plugin: 'net.minecrell.vanilla.server.library'
+apply plugin: 'java'
+
 group 'big_xplosion.mobeggs'
 version '0.0.1'
 
-apply plugin: 'java'
+minecraft {
+    version = '1.8'
+    mappings = 'stable_18'
+}
+
+afterEvaluate {
+    reobfJar.primarySrg = plugins.getPlugin('net.minecrell.vanilla.server.library').
+            delayedFile(net.minecraftforge.gradle.common.Constants.DIR_MCP_MAPPINGS + '/srgs/mcp-srg.srg')
+}
 
 repositories {
     mavenCentral()

@@ -1,6 +1,8 @@
 package big_xplosion.mobeggs.event;
 
 import big_xplosion.msu.core.helper.ItemHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
@@ -15,7 +17,7 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.Slot;
 
-//TODO: Return when SpongeVanilla implements inventory handling
+//TODO: Return when Sponge(Vanilla/Forge) implements inventory handling
 //TODO: Remove debug code
 public class ListenerPlayerInteractEntity {
 
@@ -29,6 +31,10 @@ public class ListenerPlayerInteractEntity {
 
 		System.out.println("target: " + target);
 
+		EntityPlayer mcPlayer = (EntityPlayer) player;
+
+		if(!mcPlayer.getHeldItem().getItem().equals(Items.redstone))
+			return;
 		if (!player.getItemInHand().isPresent())
 			return;
 
