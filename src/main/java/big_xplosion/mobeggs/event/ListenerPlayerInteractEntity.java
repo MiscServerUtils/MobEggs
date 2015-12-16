@@ -1,8 +1,10 @@
 package big_xplosion.mobeggs.event;
 
+import big_xplosion.mobeggs.config.Config;
 import big_xplosion.msu.core.helper.ItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
@@ -29,8 +31,9 @@ public class ListenerPlayerInteractEntity {
 
 		//HACK
 		EntityPlayer mcPlayer = (EntityPlayer) player;
+		Item activationItem = Item.getByNameOrId(Config.ACTIVATION_ITEM());
 
-		if (mcPlayer.getHeldItem() == null || !mcPlayer.getHeldItem().getItem().equals(Items.redstone))
+		if (mcPlayer.getHeldItem() == null || !(mcPlayer.getHeldItem().getItem() == activationItem))
 			return;
 
 		if (!mcPlayer.inventory.hasItem(Items.egg))
@@ -44,8 +47,8 @@ public class ListenerPlayerInteractEntity {
 			}
 		}
 
-		if (mcPlayer.getHeldItem().stackSize > 5)
-			mcPlayer.inventory.setInventorySlotContents(mcPlayer.inventory.currentItem, new net.minecraft.item.ItemStack(Items.redstone, mcPlayer.getHeldItem().stackSize - 5));
+		if (mcPlayer.getHeldItem().stackSize > Config.ACTIVATION_ITEM_AMOUNT())
+			mcPlayer.inventory.setInventorySlotContents(mcPlayer.inventory.currentItem, new net.minecraft.item.ItemStack(activationItem, mcPlayer.getHeldItem().stackSize - Config.ACTIVATION_ITEM_AMOUNT()));
 		else
 			mcPlayer.inventory.setInventorySlotContents(mcPlayer.inventory.currentItem, null);
 
