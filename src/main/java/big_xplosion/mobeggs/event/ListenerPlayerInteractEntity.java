@@ -30,7 +30,7 @@ public class ListenerPlayerInteractEntity {
 		//HACK
 		EntityPlayer mcPlayer = (EntityPlayer) player;
 
-		if (!mcPlayer.getHeldItem().getItem().equals(Items.redstone))
+		if (mcPlayer.getHeldItem() == null || !mcPlayer.getHeldItem().getItem().equals(Items.redstone))
 			return;
 
 		if (!mcPlayer.inventory.hasItem(Items.egg))
@@ -38,10 +38,10 @@ public class ListenerPlayerInteractEntity {
 
 		int slot = 0;
 		for (int i = 0; i < mcPlayer.inventory.mainInventory.length; i++) {
-			if (mcPlayer.inventory.mainInventory[i] != null && mcPlayer.inventory.mainInventory[i].getItem() == Items.egg)
+			if (mcPlayer.inventory.mainInventory[i] != null && mcPlayer.inventory.mainInventory[i].getItem() == Items.egg) {
 				slot = i;
-			else
-				return;
+				break;
+			}
 		}
 
 		if (mcPlayer.getHeldItem().stackSize > 5)
@@ -85,5 +85,6 @@ public class ListenerPlayerInteractEntity {
 		ItemStack egg = ItemStack.of(ItemTypes.SPAWN_EGG, 1);
 		egg.offer(Keys.SPAWNABLE_ENTITY_TYPE, target.getType());
 		ItemHelper.dropItemOnPlayer(egg, player);
+		target.remove();
 	}
 }
